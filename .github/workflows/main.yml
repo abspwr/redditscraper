@@ -1,0 +1,37 @@
+name: Build and Deploy Reddit Scraper
+
+on:
+  push:
+    branches:
+      - main   # change if your default branch is different
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2. Set up Go (skip this if your binary is not Go)
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'  # change if needed
+
+      # 3. Build the binary
+      - name: Build
+        run: go build -o downr redditscraper.go   # adjust path to your main.go
+
+      # 4. Copy binary to VPS
+      - name: Deploy binary to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: |
+                    downr
+
+          target: "~/scrape/"
