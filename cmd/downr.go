@@ -113,6 +113,8 @@ func main() {
 	log.Println("reading links from file")
 	links, err := loadFile(inputename)
 
+	os.Truncate(dataname, 0)
+
 	if err != nil {
 		log.Fatal("can't open input file")
 	}
@@ -122,7 +124,7 @@ func main() {
 		if topics, err := GetHotTopics(l + linkRss); err == nil {
 			log.Println("writing to file", inputename)
 			for _, t := range topics {
-				appendLine(dataname, l+linkRss, t.Url, t.Title)
+				appendLine(dataname, l, t.Url, t.Title)
 			}
 			time.Sleep(time.Duration(minSleepSeconds) * time.Second)
 		}
