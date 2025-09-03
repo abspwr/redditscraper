@@ -120,8 +120,8 @@ func main() {
 	for _, l := range links {
 		log.Println("getting trendings topics from", l)
 		if topics, err := GetHotTopics(l + linkRss); err == nil {
+			log.Println("writing to file", inputename)
 			for _, t := range topics {
-				log.Println("writing to file", inputename)
 				appendLine(dataname, l+linkRss, t.Url, t.Title)
 			}
 			time.Sleep(time.Duration(minSleepSeconds) * time.Second)
