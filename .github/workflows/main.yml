@@ -22,7 +22,7 @@ jobs:
 
       # 3. Build the binary
       - name: Build
-        run: go build -o downr redditscraper.go   # adjust path to your main.go
+        run: go build -o downr cmd/downr.go   # adjust path to your main.go
 
       # 4. Copy binary to VPS
       - name: Deploy binary to VPS
