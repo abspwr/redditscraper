@@ -39,7 +39,15 @@ func appendLine(filePath string, messages ...string) error {
 func main() {
 
 	// Make HTTP request
-	res, err := http.Get(linkTop)
+	// res, err := http.Get(linkTop)
+	//res, err := http.NewRequest("GET", linkTop, nil)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", linkTop, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+	res, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
